@@ -37,13 +37,40 @@ h1 {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* 입력 필드 내 "원" 텍스트 스타일링 */
+/* 입력 필드 내 단위 텍스트 스타일링 */
 .form-control[data-has-unit="true"] {
     position: relative;
 }
 
-.form-control[data-has-unit="true"]::after {
+/* 대출금액 - "원" 단위 */
+#loanAmount::after {
     content: "원";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 연이율 - "%" 단위 */
+#interestRate::after {
+    content: "%";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 대출기간 - "개월" 단위 */
+#loanTerm::after {
+    content: "개월";
     position: absolute;
     right: 12px;
     top: 50%;

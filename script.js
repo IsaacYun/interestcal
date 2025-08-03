@@ -26,8 +26,14 @@ class InterestCalculator {
             this.formatAmountInput(e.target);
             this.calculate();
         });
-        this.interestRateInput.addEventListener('input', () => this.calculate());
-        this.loanTermInput.addEventListener('input', () => this.calculate());
+        this.interestRateInput.addEventListener('input', (e) => {
+            this.formatRateInput(e.target);
+            this.calculate();
+        });
+        this.loanTermInput.addEventListener('input', (e) => {
+            this.formatMonthsInput(e.target);
+            this.calculate();
+        });
         this.repaymentTypeSelect.addEventListener('change', () => this.calculate());
         
         // 빠른 금액 버튼 이벤트 리스너
@@ -43,24 +49,23 @@ class InterestCalculator {
 
         // 초기화 버튼 이벤트 리스너
         document.getElementById('resetAmount').addEventListener('click', () => {
-            this.loanAmountInput.value = '10,000,000원';
+            this.loanAmountInput.value = '0 원';
             this.calculate();
         });
     }
 
     calculate() {
         const loanAmount = this.parseAmountWithCommas(this.loanAmountInput.value);
-        const annualRate = parseFloat(this.interestRateInput.value) / 100;
-        const loanTerm = parseFloat(this.loanTermInput.value);
+        const annualRate = this.parseRateWithPercent(this.interestRateInput.value) / 100;
+        const totalMonths = this.parseMonthsWithUnit(this.loanTermInput.value);
         const repaymentType = this.repaymentTypeSelect.value;
 
-        if (isNaN(loanAmount) || isNaN(annualRate) || isNaN(loanTerm) || loanAmount <= 0 || annualRate <= 0 || loanTerm <= 0) {
+        if (isNaN(loanAmount) || isNaN(annualRate) || isNaN(totalMonths) || loanAmount <= 0 || annualRate <= 0 || totalMonths <= 0) {
             this.clearResults();
             return;
         }
 
         const monthlyRate = annualRate / 12;
-        const totalMonths = loanTerm * 12;
 
         let monthlyPayment, totalInterest, totalPayment;
         let schedule = [];
@@ -262,7 +267,19 @@ class InterestCalculator {
 
     // 천 단위 콤마와 "원" 추가 (표시용)
     formatAmountWithUnit(amount) {
-        return this.formatAmountWithCommas(amount) + '원';
+        return this.formatAmountWithCommas(amount) + ' 원';
+    }
+
+    // "%" 제거하고 숫자로 변환
+    parseRateWithPercent(value) {
+        if (!value) return 0;
+        return parseFloat(value.replace(/[^\d.]/g, '')) || 0;
+    }
+
+    // "개월" 제거하고 숫자로 변환
+    parseMonthsWithUnit(value) {
+        if (!value) return 0;
+        return parseInt(value.replace(/[^\d]/g, '')) || 0;
     }
 
     // 천 단위 콤마 추가 (표시용)
@@ -286,6 +303,44 @@ class InterestCalculator {
         
         // 커서 위치 조정 (콤마만 고려, "원"은 제외)
         const newCursorPosition = this.getNewCursorPosition(value, formattedValue, cursorPosition);
+        input.setSelectionRange(newCursorPosition, newCursorPosition);
+    }
+
+    // 연이율 입력 필드 포맷팅
+    formatRateInput(input) {
+        const cursorPosition = input.selectionStart;
+        const value = input.value;
+        const numericValue = value.replace(/[^\d.]/g, '');
+        
+        if (numericValue === '') {
+            input.value = '';
+            return;
+        }
+        
+        const formattedValue = numericValue + ' %';
+        input.value = formattedValue;
+        
+        // 커서 위치 조정
+        const newCursorPosition = Math.min(cursorPosition, formattedValue.length - 2);
+        input.setSelectionRange(newCursorPosition, newCursorPosition);
+    }
+
+    // 대출기간 입력 필드 포맷팅
+    formatMonthsInput(input) {
+        const cursorPosition = input.selectionStart;
+        const value = input.value;
+        const numericValue = value.replace(/[^\d]/g, '');
+        
+        if (numericValue === '') {
+            input.value = '';
+            return;
+        }
+        
+        const formattedValue = numericValue + ' 개월';
+        input.value = formattedValue;
+        
+        // 커서 위치 조정
+        const newCursorPosition = Math.min(cursorPosition, formattedValue.length - 3);
         input.setSelectionRange(newCursorPosition, newCursorPosition);
     }
 
