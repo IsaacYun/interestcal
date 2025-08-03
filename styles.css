@@ -1,0 +1,211 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.calculator-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* 입력 필드 내 "원" 텍스트 스타일링 */
+.form-control[data-has-unit="true"] {
+    position: relative;
+}
+
+.form-control[data-has-unit="true"]::after {
+    content: "원";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.quick-amount-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.quick-amount-buttons .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.quick-amount-buttons .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-section {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.result-card {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+}
+
+.result-card h6 {
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.schedule-section {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.schedule-section h5 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background: #667eea;
+    color: white;
+    border: none;
+    font-weight: 500;
+    padding: 1rem 0.75rem;
+}
+
+.table tbody td {
+    border: none;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tfoot {
+    border-top: 2px solid #667eea;
+}
+
+.table tfoot th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2d3748;
+    padding: 1rem 0.75rem;
+}
+
+.table tfoot td {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2d3748;
+    padding: 1rem 0.75rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .calculator-card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .result-value {
+        font-size: 1.25rem;
+    }
+    
+    .table {
+        font-size: 0.875rem;
+    }
+}
+
+/* 데스크톱에서 더 넓은 너비 */
+@media (min-width: 1200px) {
+    .calculator-card {
+        max-width: 1000px;
+        margin: 2rem auto;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-section, .schedule-section {
+    animation: fadeIn 0.5s ease-out;
+} 
